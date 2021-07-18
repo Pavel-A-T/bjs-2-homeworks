@@ -1,15 +1,29 @@
 function compareArrays(arr1, arr2) {
-  let result;
+    let result = false;
+    if (arr1.length !== arr2.length) {
+        return result;
+    }
 
-  // Ваш код
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return result;
+        }
+    }
 
-  return result; // boolean
+    result = true;
+    return result; // boolean
 }
 
 function advancedFilter(arr) {
-  let resultArr;
+    let resultArr = arr.filter(isPositiveAndSplit).map(mult);
 
-  // Ваш код
+    return resultArr; // array
+}
 
-  return resultArr; // array
+function isPositiveAndSplit(value) {
+    return (value > 0 && value % 3 === 0);
+}
+
+function mult(value) {
+    return value * 10;
 }
