@@ -22,21 +22,13 @@ class PrintEditionItem {
     }
 
     fix() {
-        if (this.state * 1.5 > 100) {
-            this.state = 100;
-        } else {
-            this.state *= 1.5;
-        }
+        this.state *= 1.5;
     }
 }
 
 class Magazine extends PrintEditionItem {
     constructor(name, releaseDate, pagesCount) {
         super(name, releaseDate, pagesCount);
-        this.name = name;
-        this.releaseDate = releaseDate;
-        this.pagesCount = pagesCount;
-        this.state = 100;
         this.type = 'magazine';
     }
 }
@@ -44,47 +36,28 @@ class Magazine extends PrintEditionItem {
 class Book extends PrintEditionItem {
     constructor(author, name, releaseDate, pagesCount) {
         super(name, releaseDate, pagesCount);
-        this.name = name;
-        this.releaseDate = releaseDate;
-        this.pagesCount = pagesCount;
         this.author = author;
-        this.state = 100;
         this.type = 'book';
     }
 }
 
 class FantasticBook extends Book {
     constructor(author, name, releaseDate, pagesCount) {
-        super(name, releaseDate, pagesCount, author);
-        this.name = name;
-        this.releaseDate = releaseDate;
-        this.pagesCount = pagesCount;
-        this.author = author;
-        this.state = 100;
+        super(author, name, releaseDate, pagesCount);
         this.type = 'fantastic';
     }
 }
 
 class DetectiveBook extends Book {
     constructor(author, name, releaseDate, pagesCount) {
-        super(name, releaseDate, pagesCount, author);
-        this.name = name;
-        this.releaseDate = releaseDate;
-        this.pagesCount = pagesCount;
-        this.author = author;
-        this.state = 100;
+        super(author, name, releaseDate, pagesCount);
         this.type = 'detective';
     }
 }
 
 class NovelBook extends Book {
     constructor(author, name, releaseDate, pagesCount) {
-        super(name, releaseDate, pagesCount, author);
-        this.name = name;
-        this.releaseDate = releaseDate;
-        this.pagesCount = pagesCount;
-        this.author = author;
-        this.state = 100;
+        super(author, name, releaseDate, pagesCount);
         this.type = 'novel';
     }
 }
@@ -101,16 +74,10 @@ class Library {
         }
     }
 
-    findBookBy(type, value) {//ключ значение
+    //поиск книги по значению типа
+    findBookBy(type, value) {
         for (let i = 0; i < this.books.length; i++) {
-            for (let key in this.books[i]) {
-                if (key === type) {
-                    let book = this.books.find(s => s[key] === value);
-                    if (book) {
-                        return book;
-                    }
-                }
-            }
+            if (this.books[i][type] === value) return this.books[i];
         }
         return null;
     }
@@ -139,8 +106,8 @@ class Student {
             return 'Ошибка, оценка должна быть числом от 1 до 5';
         }
         let reference = this.subjects.find(s => s.subject === subject);
-        let item = {'subject': subject, marks: [mark]};
         if (!reference) {
+            let item = {subject, marks: [mark]};
             this.subjects.push(item);
         } else {
             reference.marks.push(mark);
@@ -148,30 +115,24 @@ class Student {
     }
 
     getAverageBySubject(subject) {
-        let marks = this.subjects.find(s => s.subject === subject).marks;
-        if (marks) {
-            let length = marks.length;
-            let sum = 0;
-            for (let i = 0; i < length; i++) {
-                sum += marks[i];
+        let subj = this.subjects.find(s => s.subject === subject);
+        if (subj) {
+            if (subj.marks) {
+                let length = subj.marks.length;
+                let sum = 0;
+                for (let i = 0; i < length; i++) {
+                    sum += subj.marks[i];
+                }
+                return sum / length;
             }
-            return sum / length;
         }
         return 'Несуществующий предмет';
     }
 
     getAverage() {
-        let totalSum = 0;
-        for (let i = 0; i < this.subjects.length; i++) {
-            let arr = this.subjects[i].marks;
-            let length = arr.length;
-            let sum = 0;
-            for (let j = 0; j < length; j++) {
-                sum += arr[j];
-            }
-            totalSum += sum / length;
-        }
-        return totalSum / this.subjects.length;
+        let total = this.subjects.map(s => this.getAverageBySubject(s.subject));
+        let totalSum = total.reduce((sum, current) => sum + current, 0);
+        return totalSum / total.length;
     }
 
     exclude(reason) {
