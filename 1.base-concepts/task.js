@@ -17,13 +17,13 @@ function solveEquation(a, b, c) {
 function calculateTotalMortgage(percent, contribution, amount, date) {
     let currentDate = new Date();
 
-    if (isNaN(percent)) {
+    if (Number.isNaN(Number(percent))) {
         return `Параметр "Процентная ставка" содержит неправильное значение "${percent}"`;
     }
-    if (isNaN(contribution)) {
+    if (Number.isNaN(Number(contribution))) {
         return `Параметр "Начальный взнос" содержит неправильное значение "${contribution}"`;
     }
-    if (isNaN(amount)) {
+    if (Number.isNaN(Number(amount))) {
         return `Параметр "Общая стоимость" содержит неправильное значение "${amount}"`;
     }
     if (date <= currentDate) {

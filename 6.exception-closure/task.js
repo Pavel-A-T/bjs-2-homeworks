@@ -7,13 +7,11 @@ function parseCount(parseNumber) {
 }
 
 function validateCount(value) {
-    let result;
     try {
-        result = parseCount(value);
+        return parseCount(value);
     } catch (e) {
         return e;
     }
-    return result;
 }
 
 class Triangle {
@@ -32,24 +30,18 @@ class Triangle {
     }
 
     getArea() {
-        let p = 1 / 2 * (this.a + this.b + this.c);
+        let p = this.getPerimeter() / 2;
         return +Math.sqrt((p * (p - this.a) * (p - this.b) * (p - this.c))).toFixed(3);
     }
 }
 
 function getTriangle(a, b, c) {
-    let triangle;
     try {
-        triangle = new Triangle(a, b, c);
+        return new Triangle(a, b, c);
     } catch (e) {
-        triangle = new class SimpleClass {
-            getArea() {
-                return 'Ошибка! Треугольник не существует';
-            }
-            getPerimeter() {
-                return 'Ошибка! Треугольник не существует';
-            }
+        return new class SimpleClass {
+            getArea = () => 'Ошибка! Треугольник не существует';
+            getPerimeter = () => 'Ошибка! Треугольник не существует';
         }
     }
-    return triangle;
 }
