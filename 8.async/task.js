@@ -35,10 +35,11 @@ class AlarmClock {
 
     //запускает все звонки
     start() {
+        let checkAlarm = checkClock.bind(this);
         function checkClock(alarm) {
-            if (alarm.time === getCurrentFormattedTime) alarm.func();
+            if (alarm.time === this.getCurrentFormattedTime()) alarm.func();
         }
-        if (!this.timerId) this.timerId = setInterval(()=> this.alarmCollection.forEach(item => checkClock(item)),
+        if (!this.timerId) this.timerId = setInterval(()=> this.alarmCollection.forEach(item => checkAlarm(item)),
             1000);
     }
 
@@ -64,7 +65,7 @@ class AlarmClock {
 
 function testCase() {
     let clock = new AlarmClock();
-    clock.addClock(clock.getCurrentFormattedTime(), console.log('Пора вставать!'), 55);
+    clock.addClock(clock.getCurrentFormattedTime(), () => console.log('Пора вставать!'), 55);
     let currentDate = new Date();
     currentDate.setMinutes(currentDate.getMinutes() + 1);
     clock.addClock(clock.getCurrentFormattedTime(currentDate), () => {console.log('Давно Пора встать!'); clock.removeClock(215)}, 215);
