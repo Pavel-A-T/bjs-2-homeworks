@@ -23,8 +23,9 @@ function debounceDecoratorNew(func, timeout) {
     return function (...args) {
         if (flag) return;
         func.apply(this, args);
+        flag = true;
         setTimeout(function () {
-            flag = true;
+            flag = false;
             func.apply(this, args);
         }, timeout);
     }
@@ -37,8 +38,9 @@ function debounceDecorator2(func, timeout) {
         if (flag) return;
         wrapper.count++;
         func.apply(this, args);
+        flag = true;
         setTimeout(function () {
-            flag = true;
+            flag = false;
             func.apply(this, args);
         }, timeout);
     }
